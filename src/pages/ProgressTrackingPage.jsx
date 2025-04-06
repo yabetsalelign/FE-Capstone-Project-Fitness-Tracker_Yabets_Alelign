@@ -5,7 +5,6 @@ import { useAuthStore } from '../Store/useAuthStore';
 const ProgressTrackingPage = () => {
   const { darkMode, dailyStats } = useAuthStore();
 
-  // Sample data for Calories (Weekly)
   const [caloriesData, setCaloriesData] = useState([
     { day: 'Monday', calories: 1200 },
     { day: 'Tuesday', calories: 1100 },
@@ -14,7 +13,6 @@ const ProgressTrackingPage = () => {
     { day: 'Friday', calories: 1300 },
   ]);
 
-  // Sample data for Distance Covered & Steps Taken
   const [distanceData, setDistanceData] = useState([
     { day: 'Monday', distance: 5, steps: 8000 },
     { day: 'Tuesday', distance: 4.5, steps: 7500 },
@@ -23,7 +21,6 @@ const ProgressTrackingPage = () => {
     { day: 'Friday', distance: 5.2, steps: 8500 },
   ]);
 
-  // Update daily stats from Zustand store
   useEffect(() => {
     const currentDay = new Date().toLocaleDateString('en-US', { weekday: 'long' });
 
@@ -43,36 +40,53 @@ const ProgressTrackingPage = () => {
   }, [dailyStats]);
 
   return (
-    <div className={`min-h-screen w-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-900'} flex flex-col items-center`}>
-      <div className={`w-11/12 md:w-1/2 ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-black'} shadow-md rounded-lg p-8`}>
-        <h2 className="text-2xl font-bold mb-4">Your Fitness Progress</h2>
+    <div className={`min-h-screen w-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'} flex flex-col items-center py-10`}>
+      <div className={`w-11/12 max-w-4xl ${darkMode ? 'bg-gray-800' : 'bg-white'} shadow-xl rounded-2xl p-6 md:p-10`}>
+        <h2 className="text-3xl font-bold mb-8 text-center">Your Fitness Progress</h2>
 
-        {/* Calories Pie Chart with Label */}
-        <div className="flex flex-col items-center mb-6">
-          <h3 className="text-xl mb-2">Calories Burned (Weekly)</h3>
-          <PieChart width={500} height={500}>
-            <Pie data={caloriesData} dataKey="calories" nameKey="day" cx="50%" cy="50%" outerRadius={120}>
-              {caloriesData.map((entry, index) => (
-                <Cell key={index} fill={index % 2 === 0 ? "#66BB6A" : "#2E7D32"} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-          <p className="text-lg font-semibold mt-4 text-gray-700">Breakdown of calories burned this week</p>
+        {/* Calories Pie Chart Section */}
+        <div className="mb-12 border-b border-gray-300 pb-10">
+          <h3 className="text-2xl font-semibold mb-4 text-center">Calories Burned (Weekly)</h3>
+          <div className="flex justify-center">
+            <PieChart width={300} height={300}>
+              <Pie
+                data={caloriesData}
+                dataKey="calories"
+                nameKey="day"
+                cx="50%"
+                cy="50%"
+                outerRadius={100}
+                label
+              >
+                {caloriesData.map((entry, index) => (
+                  <Cell key={index} fill={index % 2 === 0 ? "#66BB6A" : "#2E7D32"} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </div>
+          <p className="text-md mt-4 text-center text-gray-600 dark:text-gray-300">
+            Breakdown of calories burned throughout the week
+          </p>
         </div>
 
-        {/* Distance & Steps Line Chart with Legend */}
+        {/* Distance & Steps Line Chart Section */}
         <div>
-          <h3 className="text-xl mb-2">Distance Covered & Steps Taken (Weekly)</h3>
-          <LineChart width={500} height={300} data={distanceData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="day" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="distance" stroke="#FF5733" activeDot={{ r: 8 }} />
-            <Line type="monotone" dataKey="steps" stroke="#3498DB" />
-          </LineChart>
+          <h3 className="text-2xl font-semibold mb-4 text-center">Distance & Steps (Weekly)</h3>
+          <div className="flex justify-center overflow-x-auto">
+            <LineChart width={500} height={300} data={distanceData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="day" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="distance" stroke="#FF5733" strokeWidth={2} activeDot={{ r: 8 }} />
+              <Line type="monotone" dataKey="steps" stroke="#3498DB" strokeWidth={2} />
+            </LineChart>
+          </div>
+          <p className="text-md mt-4 text-center text-gray-600 dark:text-gray-300">
+            Daily progress on distance covered and steps taken
+          </p>
         </div>
       </div>
     </div>
