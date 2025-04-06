@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useAuthStore } from "../Store/useAuthStore";
+import { useAuthStore } from "../Store/useAuthStore"; // Zustand makes global state updates easy here (calories, dark mode, recent workouts, etc.)
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo.png";
 import CalorieIcon from "../assets/Calorie.png";
@@ -68,12 +68,15 @@ const HomePage = () => {
   return (
     <div className={`min-h-screen w-screen ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"} flex justify-center`}>
       <div className="w-full max-w-5xl flex flex-col items-center p-4">
-      <div className="w-full flex justify-between items-center mb-6 bg-green-700">
+        <div className="w-full flex justify-between items-center mb-2 bg-green-700 p-4 rounded-md">
           <div className="flex items-center">
             <img src={Logo} alt="Logo" className="h-12" />
             <h1 className="text-xl font-bold ml-4">Ready for your Workout today?</h1>
           </div>
         </div>
+
+        {/* 💬 Small personal touch / motivational quote */}
+        <p className="italic text-sm text-gray-500 mb-6">"A little progress each day adds up to big results."</p>
 
         {showForm && (
           <form onSubmit={handleSubmit} className="mb-6 w-full grid grid-cols-1 md:grid-cols-3 gap-4">
